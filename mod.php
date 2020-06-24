@@ -1,49 +1,14 @@
 <?php
-class Modelo{
-    private $Modelo;
-    private $db;
-    public function __construct(){
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "test";    
-        $this->Modelo = array();
-        $this->db=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
-    }
+require_once('db.php'); 
 
-    public function insertar($nombre, $apellido, $dpi){
-        $tabla = 'usr'; //Este es el nombre de la tabla
-        $consulta="INSERT INTO $tabla (nombre, apellido, dpi) VALUES (:nombre, :apellido, :dpi);";
-
-        /////////Hcemos un prepare envez de un insert directo para evitar posibles fallas de seguridad y SQLinjection
-        $resultado=$this->db->prepare($consulta);
-
-        ///////// Establecemos parametros para evitar que se añadan textos a la consulta sql original
-        $resultado->bindParam(':nombre', $nombre);
-        $resultado->bindParam(':apellido', $apellido);
-        $resultado->bindParam(':dpi', $dpi);
-
-        ///////// Ejecutamos
-        $resultado->execute(); 
-        if ($resultado) { 
-            //////////// Si todo funciono:
-            echo "Se registro el usuario satisfactorio"; //Mensaje test, se registro
-        } else {
-            //////////// Si nada funciono:
-            echo "No se registro el usuario"; //Mensaje test, no se registro
-         }
-     }
-
-}
-
-function InsertData($nombre, $apellido, $dpi){  /// Ejecutamos Conexion y query del Insert
+function InsertData($nombre, $apellido, $dpi, $telefono){  /// Ejecutamos Conexion y query del Insert
     $mod=new Modelo();
-    $mod->insertar($nombre, $apellido, $dpi);
+    $mod->insertar($nombre, $apellido, $dpi, $telefono);
 }
 
-function VerificarDatos($nombre, $apellido, $dpi){
-    if (isset($nombre) && isset($apellido) && isset($dpi) && strlen($dpi) == 13 ){ 
-        // Todos los DPI tienen 13 Caracteres sin espacios
+function VerificarDatos($nombre, $apellido, $dpi, $telefono){
+    if (isset($nombre) && isset($apellido) && isset($dpi) && isset($telefono) && ( strlen($dpi) == 13 && strlen($telefono) == 8) ){ 
+        // Todos los DPI tienen 13 Caracteres sin espacios y los telefonos 8.
 
         /////////////Removemos numeros y caracteres que pueden ocasionar una SQLInjection
         $nombre = preg_replace('/[^\p{L}\s]/u', '', $nombre); 
@@ -51,13 +16,15 @@ function VerificarDatos($nombre, $apellido, $dpi){
 
         //////////////////////////// Removemos Cualquier cosa que no sea un numero, el DPI solo tiene numeros
         $dpi = preg_replace('/\D/', '', $dpi);
+        $telefono = preg_replace('/\D/', '', $telefono);
+
 
         ////////////////////////////// Ejecutamos la funcion SQL para insertar datos
-        InsertData($nombre, $apellido, $dpi);
+        InsertData($nombre, $apellido, $dpi, $telefono);
         
 
     }else{
-       echo "No se registro el usuario"; //Mensaje test, no se registro
+        var_dump(http_response_code(500)); ///Ocurrio un error en el ingreso de datos
     }
 
     } 
@@ -69,10 +36,10 @@ function Redi(){
 }
 
 /////////// Verificaicones de inicio
-if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['dpi'])  ){
-    VerificarDatos($_POST['nombre'],$_POST['apellido'], $_POST['dpi']);  //Hacemos las verificaciones
+if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['dpi'])  && isset($_POST['telefono'])  ){
+    VerificarDatos($_POST['nombre'],$_POST['apellido'], $_POST['dpi'], $_POST['telefono']);  //Hacemos las verificaciones
 }else{
     Redi();
 }
 
-
+?>

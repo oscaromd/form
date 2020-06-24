@@ -17,9 +17,13 @@
          type: 'POST',
          url: 'mod.php',
          data: $('form').serialize(),
-         success: function(data){
+         success: function(data,status){
           document.getElementById("notitest").style.display = "block";
-          document.getElementById("testitulo").innerHTML = data;
+          document.getElementById("testitulo").innerHTML = status;
+         },
+         error: function(data,status){
+          document.getElementById("notitest").style.display = "block";
+          document.getElementById("testitulo").innerHTML = status;
          }
          
        });
@@ -42,12 +46,14 @@
     <h1>Formulario test</h1>
         <form id='formulario' method="POST" action='mod.php' >
   <div class='form-group'>
-    <label for='e1'>Nombre</label>
-    <input type='text' name='nombre' id='nombre' class='form-control' id='e1' placeholder='Nombre' required>
-    <label for='e2'>Apellido:</label>
-    <input type='text' name='apellido' id='apellido'  class='form-control' id='e2' placeholder='Apellido' required>
-    <label for='e3'>DPI:</label>
-    <input type='number' name='dpi' id='dpi' class='form-control' id='e3' placeholder='DPI (13 digitos)' required>
+    <label >Nombre</label>
+    <input type='text' name='nombre' id='nombre' class='form-control' placeholder='Nombre' required>
+    <label >Apellido:</label>
+    <input type='text' name='apellido' id='apellido'  class='form-control'placeholder='Apellido' required>
+    <label f>DPI:</label>
+    <input type='number' name='dpi' id='dpi' class='form-control' placeholder='DPI (13 digitos)' required>
+    <label >Numero Telefonico:</label>
+    <input type='number' name='telefono' id='telefono' class='form-control'  placeholder='Numero Telefonico (8 digitos)' required>
     </div>
     <button type='submit' class='btn btn-primary' >Submit</button>
 </form>
