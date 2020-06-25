@@ -1,0 +1,19 @@
+Los datos estan ecriptados por un modelo AES-128-CTR SSL
+para desencriptar es necesario utilizar las siguientes variables
+---------------------------------------------------------------------------
+$encryptionxx = "String a decodificar";
+$ciphering = "AES-128-CTR"; 
+$iv_length = openssl_cipher_iv_length($ciphering); 
+$options = 0; 
+$encryption_iv = '0111110000111111'; 
+$encryption_key = "00111111x01011111x00111111"; 
+----------------------------------------------------------------------------
+
+La funcion que desencripta (PHP) debe tener los parametros anteriormente establecidos
+-----------------------------------------------------------------------------
+$decryption=openssl_decrypt ($encryptionxx, $ciphering,  
+        $encryption_key, $options, $encryption_iv); 
+-----------------------------------------------------------------------------
+
+El string desencriptado quedaria almacenado en la variable 'decryption'
+-----------------------------------------------------------------------------

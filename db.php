@@ -1,4 +1,5 @@
 <?php
+    require_once('encrypt.php');
         class Modelo{
             private $Modelo;
             private $db;
@@ -23,8 +24,8 @@
                 $resultado->bindParam(':apellido', $apellido);
 
                 ///////////////////// Encriptacion md5 para datos sensibles
-                $resultado->bindParam(':dpi', md5($dpi));
-                $resultado->bindParam(':telefono', md5($telefono));
+                $resultado->bindParam(':dpi', Encriptar($dpi));
+                $resultado->bindParam(':telefono', Encriptar($telefono));
         
                 ///////// Ejecutamos
                 $resultado->execute(); 
@@ -39,6 +40,10 @@
         
         }
         
+
+
+
+
 ////Esta funcion redirecciona si se intenta ingresar al archivo directamente
     header("Location: index.php");
 ?>

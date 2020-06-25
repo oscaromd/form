@@ -1,0 +1,172 @@
+footer{
+    background: #4C296E;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.form input, .form select, .form textarea {
+    outline-width: 0;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color--borders);
+    background-color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 300;
+    font-style: normal;
+    color: #565656;
+}
+.banner--main {
+    height: 200px;
+}
+.banner {
+    margin: 0 auto;
+    width: 100%;
+}
+.banner {
+    background-position: center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+.header {
+    background-color: #FFFFFF;
+    color: #565656;
+    border-top: 30px solid #4C296E;
+    border-bottom: 3px solid #ccc;
+}
+
+.header__logo {
+    background-image: url("https://telusinternational.avature.net/portal/t12/images/logo.svg");
+}
+.header__logo {
+    display: block;
+    background-position: center center;
+    -webkit-background-size: contain;
+    background-size: contain;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+.header__logo--default {
+    width: 300px;
+    height: 50px;
+}
+.footer__logo {
+    width: 250px;
+}
+.footer__rights {
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 30%;
+
+}
+.footer {
+    display: table-row;
+    height: 0;
+}
+.footer__social {
+    float: right;
+    margin-left: 190px;
+}
+.footer__social ul li {
+    list-style: none;
+    list-style-type: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 20px 0px;
+}
+
+.footer__social ul{
+    display: flex;
+    flex-wrap:wrap;
+}
+.footer__social ul li a {
+    color: #FFFFFF;
+    font-size: 1.6em;
+    display: inline-block;
+    transition: all 250ms ease-in-out;
+    -webkit-transition: all 250ms ease-in-out;
+    height: 30px;
+    width: 30px;
+}
+
+.footer__content.clearfix{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.footer__social ul li a {
+    color: #FFFFFF;
+    font-size: 1.6em;
+    display: inline-block;
+    transition: all 250ms ease-in-out;
+    -webkit-transition: all 250ms ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+button.btn{
+    border-color: #258700;
+    background-color: #258700;
+    color:white;
+}
+.labelText {
+    font-weight: 400;
+    margin: 10px 0px 0px;
+}
+
+
+
+@media only screen and (orientation:landscape) and (max-width: 900px) {
+
+    .footer__social{
+        margin: 0px;
+    }
+
+}   
+@media only screen and (max-width: 600px) {
+    .footer__content.clearfix > div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        float: inherit;
+        flex-direction: column;
+    }
+    .footer__social ul {
+        padding: 0px;
+        flex-direction: column;
+    }
+  }
+
+
+
+
+  .invalid {
+    border: 1px solid rgb(233, 71, 71) !important;
+    }
+
+
+    .valid {
+        background: url(./check_green.png);
+        background-size: 35px;
+        background-repeat: no-repeat;
+        background-position: 98% 0px;
+        border:1px solid #ccc !important;
+      }

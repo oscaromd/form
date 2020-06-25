@@ -1,76 +1,238 @@
 <html>
+
 <head>
-<!-- CSS only -->
-<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css' integrity='sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk' crossorigin='anonymous'>
+  <!-- CSS only -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css'
+    integrity='sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk' crossorigin='anonymous'>
+  <link rel="stylesheet" href="./style.css">
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+  <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'
+    integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo'
+    crossorigin='anonymous'></script>
+  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js'
+    integrity='sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI'
+    crossorigin='anonymous'></script>
+  <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css" rel="stylesheet">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
 
-<!-- JS, Popper.js, and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-<script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous'></script>
-<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' integrity='sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI' crossorigin='anonymous'></script>
-<script>
+  <script>
 
-  $(function () {
-     $('form').on('submit', function (e) {
+    $(function () {
+      $('#formulario').on('submit', function (e) {
+        e.preventDefault();
+        if ( $( "#nombre" ).hasClass( "valid" ) && $( "#apellido" ).hasClass( "valid" ) && $( "#dpi" ).hasClass( "valid" ) && $( "#telefono" ).hasClass( "valid" ) ){
+        $.ajax({
+          type: 'POST',
+          url: 'mod.php',
+          data: $('#formulario').serialize(),
+          success: function (data, status) {
+          $( "#nombre" ).val( "" ),
+          $( "#apellido" ).val( "" ),
+          $( "#dpi" ).val( "" ),
+          $( "#telefono" ).val( "" ),
+          Swal.fire({
+          icon: 'success',
+          title: 'Your data has been saved',
+          showConfirmButton: false,
+          timer: 3000
 
-       e.preventDefault();
-       $.ajax({
-         type: 'POST',
-         url: 'mod.php',
-         data: $('form').serialize(),
-         success: function(data,status){
-          document.getElementById("notitest").style.display = "block";
-          document.getElementById("testitulo").innerHTML = status;
-         },
-         error: function(data,status){
-          document.getElementById("notitest").style.display = "block";
-          document.getElementById("testitulo").innerHTML = status;
-         }
-         
-       });
+        })
 
-     });
+      },
+          error: function (data, status){
+          Swal.fire({
+          icon: 'error',
+          title: 'Something went wrong!',
+          showConfirmButton: false,
+          timer: 3000
+        })
+      }
 
-   });
 
-</script>
+        });
+
+        }else{
+          Swal.fire({
+          icon: 'error',
+          title: 'Enter the data correctly',
+          showConfirmButton: false,
+          timer: 3000
+        })
+
+        }
+
+
+
+
+
+      });
+
+
+      $('#telefono').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+
+      $('#nombre, #apellido').on('input', function () {
+        this.value = this.value.replace(/[@`?^!¿¡+Ç;:*}!"·$%&/()=_0-9!.-]+$/, '');
+      });
+
+      $('#dpi').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+
+
+      $('#nombre').keyup(function () {
+        if ($('#nombre').val().length > '3') {
+          $('#nombre').removeClass('invalid').addClass('valid');
+
+        }
+        else if ($('#nombre').val().length < '3') {
+          $('#nombre').removeClass('valid').addClass('invalid');
+
+        }
+      });
+
+      $('#telefono').keyup(function () {
+
+        if ($('#telefono').val().length == '8') {
+          $('#telefono').removeClass('invalid').addClass('valid');
+
+        }
+        else if ($('#telefono').val().length < '8') {
+          $('#telefono').removeClass('valid').addClass('invalid');
+        }
+      });
+
+
+      $('#apellido').keyup(function () {
+        if ($('#apellido').val().length > '3') {
+          $('#apellido').removeClass('invalid').addClass('valid');
+
+
+        }
+        else if ($('#apellido').val().length < '3') {
+          $('#apellido').removeClass('valid').addClass('invalid');
+
+        }
+      });
+
+
+
+      $('#dpi').keyup(function () {
+        if ($('#dpi').val().length > '12') {
+          $('#dpi').removeClass('invalid').addClass('valid');
+
+
+        }
+        else if ($('#dpi').val().length < '13') {
+          $('#dpi').removeClass('valid').addClass('invalid');
+
+        }
+      });
+
+
+
+
+  });
+
+  </script>
 </head>
+
 <body>
-  
 
-<div class='container'>
-  <div class='row'>
-    <div class='col'>
-
+  <header class="header">
+    <div class="header__wrapper">
+      <div class="header__content clearfix">
+        <a class="header__logo header__logo--default" href="https://telusinternational.com/" target="_blank">
+          <h1>Theme</h1>
+        </a>
+      </div>
     </div>
-    <div class='col-6'>
-    <h1>Formulario test</h1>
-        <form id='formulario' method="POST" action='mod.php' >
-  <div class='form-group'>
-    <label >Nombre</label>
-    <input type='text' name='nombre' id='nombre' class='form-control' placeholder='Nombre' required>
-    <label >Apellido:</label>
-    <input type='text' name='apellido' id='apellido'  class='form-control'placeholder='Apellido' required>
-    <label f>DPI:</label>
-    <input type='number' name='dpi' id='dpi' class='form-control' placeholder='DPI (13 digitos)' required>
-    <label >Numero Telefonico:</label>
-    <input type='number' name='telefono' id='telefono' class='form-control'  placeholder='Numero Telefonico (8 digitos)' required>
-    </div>
-    <button type='submit' class='btn btn-primary' >Submit</button>
-</form>
+  </header>
 
-<div id='notitest' style='display: none;'>
-  <div class="alert alert-primary fade show"  role="alert">
-    <p id='testitulo'><strong></strong></p>
-  </div>
-  
-</div>
-    </div>
-    <div class='col'>
-
+  <div class="banner banner--main"
+    style="background-image: url(https://telusinternational.avature.net/TIGsourcing/DefaultHeaderImage/);">
+    <div class="banner__wrapper">
+      <div class="banner__content">
+        <div class="banner__text">
+        </div>
+      </div>
     </div>
   </div>
+
+
+
+  <div class='container'>
+    <div class='row col-lg-6 col-xl-6 col-12 m-auto'>
+
+
+      <div class="section__content section__content--narrow col-12">
+        <div class="grid">
+          <div class="grid__item">
+            <div>
+              <div align="center"><strong>Welcome to TELUS International Guatemala</strong></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class='col-12 col-sm-12 col-lg-12 col-xl-12 m-auto'>
+
+        <form id='formulario' method="POST" action='mod.php'>
+          <div class='form-group'>
+            <div class="labelText" id="1707-label">First Name<span class="requiredField">&nbsp;*</span></div>
+            <input type='text' name='nombre' id='nombre' class='form-control' id='e1' placeholder='' required>
+            <div class="labelText" id="1708-label">Last Name<span class="requiredField">&nbsp;*</span></div>
+            <input type='text' name='apellido' id='apellido' class='form-control' id='e2' placeholder='' required>
+          <div class="labelText" id="1708-label">DPI<span class="requiredField">&nbsp;*</span></div>
+          <input type='text' name='dpi' id='dpi' class='form-control' id='e3' placeholder='DPI (13 charters)'
+            required pattern=".{13,}" maxlength="13" >
+
+            <div class="labelText" id="1708-label">Phone<span class="requiredField">&nbsp;*</span></div>
+            <input class="form-control" type="text" name="telefono" id="telefono" pattern=".{8,}" placeholder=""
+              maxlength="8" autocomplete="off" required>
+
+          </div>
+      </div>
+      <button type='submit' class='btn col-12 col-lg-12 col-xl-12'>Send</button>
+      </form>
+
+      <div id='notitest' style='display: none;'>
+        <div class="alert alert-primary fade show" role="alert">
+          <p id='testitulo'><strong></strong></p>
+        </div>
+
+      </div>
+    </div>
+
   </div>
+  </div>
+
+  <footer class="mt-4">
+
+    <div class="footer__wrapper">
+      <div class="footer__content clearfix">
+        <div class="footer__rights"><a href="https://telusinternational.com/" target="_blank"><img
+              src="https://telusinternational.avature.net/portal/t12/images/logoFooter.svg" class="footer__logo"
+              alt="Telus footer logo"></a></div>
+        <div class="footer__social">
+          <ul>
+            <li>Follow us on</li>
+            <li><a class="icon-facebook" href="https://www.facebook.com/TELUSInternational/" target="_blank"><i
+                  class="fa fa-facebook-official" aria-hidden="true"></i></a>TELUSInternational</li>
+            <li><a class="icon-instagram" href="https://www.instagram.com/telus_international/" target="_blank"><i
+                  class="fa fa-instagram" aria-hidden="true"></i></a>telus_international</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </body>
-</html>
 
+</html>

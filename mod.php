@@ -7,8 +7,7 @@ function InsertData($nombre, $apellido, $dpi, $telefono){  /// Ejecutamos Conexi
 }
 
 function VerificarDatos($nombre, $apellido, $dpi, $telefono){
-    if (isset($nombre) && isset($apellido) && isset($dpi) && isset($telefono) && ( strlen($dpi) == 13 && strlen($telefono) == 8) ){ 
-        // Todos los DPI tienen 13 Caracteres sin espacios y los telefonos 8.
+    if (isset($nombre) && isset($apellido) && isset($dpi) && isset($telefono) ){ 
 
         /////////////Removemos numeros y caracteres que pueden ocasionar una SQLInjection
         $nombre = preg_replace('/[^\p{L}\s]/u', '', $nombre); 
@@ -24,7 +23,7 @@ function VerificarDatos($nombre, $apellido, $dpi, $telefono){
         
 
     }else{
-        var_dump(http_response_code(500)); ///Ocurrio un error en el ingreso de datos
+        var_dump(http_response_code(404)); ///Ocurrio un error en el ingreso de datos
     }
 
     } 
